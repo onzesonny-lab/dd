@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code App</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        textarea { width: 100%; height: 200px; font-family: monospace; }
+        button { margin-top: 10px; padding: 10px 20px; }
+        #output { margin-top: 20px; border: 1px solid #ccc; padding: 10px; background: #f9f9f9; }
+    </style>
+</head>
+<body>
+    <h1>Code Runner App</h1>
+    <p>Write your JavaScript code in the box below and click "Run Code" to make it happen!</p>
+    <textarea id="code" placeholder="Write your JavaScript code here... e.g., console.log('Hello World!');"></textarea>
+    <br>
+    <button onclick="runCode()">Run Code</button>
+    <div id="output"></div>
+
+    <script>
+        function runCode() {
+            const code = document.getElementById('code').value;
+            const output = document.getElementById('output');
+            output.innerHTML = '';
+            let logs = [];
+            const originalLog = console.log;
+            console.log = function(...args) {
+                logs.push(args.join(' '));
+                originalLog.apply(console, args);
+            };
+            try {
+                const result = eval(code);
+                if (result !== undefined) {
+                    output.innerHTML += '<strong>Result:</strong> ' + result + '<br>';
+                }
+                if (logs.length > 0) {
+                    output.innerHTML += '<strong>Console Output:</strong><br>' + logs.join('<br>');
+                }
+            } catch (e) {
+                output.innerHTML = '<strong>Error:</strong> ' + e.message;
+            } finally {
+                console.log = originalLog;
+            }
+        }
+    </script>
+</body>
+</html></content>
+<parameter name="filePath">/workspaces/dd/index.html
